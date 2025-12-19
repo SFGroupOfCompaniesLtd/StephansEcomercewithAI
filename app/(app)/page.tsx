@@ -88,10 +88,10 @@ export default async function HomePage({ searchParams }: PageProps) {
   });
 
   // Extract image URLs
-  const dogImages = petImages?.dogImages?.map((img: { url: string }) => img.url) ?? [];
-  const catImages = petImages?.catImages?.map((img: { url: string }) => img.url) ?? [];
-  const birdImages = petImages?.birdImages?.map((img: { url: string }) => img.url) ?? [];
-  const fishImages = petImages?.fishImages?.map((img: { url: string }) => img.url) ?? [];
+  const dogImages = petImages?.dogImages?.map((img: { url?: string | null }) => img.url).filter((url): url is string => !!url) ?? [];
+  const catImages = petImages?.catImages?.map((img: { url?: string | null }) => img.url).filter((url): url is string => !!url) ?? [];
+  const birdImages = petImages?.birdImages?.map((img: { url?: string | null }) => img.url).filter((url): url is string => !!url) ?? [];
+  const fishImages = petImages?.fishImages?.map((img: { url?: string | null }) => img.url).filter((url): url is string => !!url) ?? [];
 
   return (
     <div className="min-h-screen bg-background">

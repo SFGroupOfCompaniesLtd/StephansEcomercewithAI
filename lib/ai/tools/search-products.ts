@@ -109,8 +109,8 @@ export const searchProductsTool = tool({
         stockCount: product.stock ?? 0,
         stockStatus: getStockStatus(product.stock),
         stockMessage: getStockMessage(product.stock),
-        featured: product.featured ?? false,
-        assemblyRequired: product.assemblyRequired ?? false,
+        featured: !!product.featured,
+        assemblyRequired: !!product.assemblyRequired,
         imageUrl: product.image?.asset?.url ?? null,
         productUrl: product.slug ? `/products/${product.slug}` : null,
       }));

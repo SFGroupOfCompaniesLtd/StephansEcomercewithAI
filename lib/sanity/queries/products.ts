@@ -358,7 +358,14 @@ export const AI_SEARCH_PRODUCTS_QUERY = defineQuery(`*[
   material,
   color,
   dimensions,
+  price,
   stock,
   featured,
-  assemblyRequired
+  assemblyRequired,
+  "image": images[0]{
+    asset->{
+      _id,
+      url
+    }
+  }
 }`);
