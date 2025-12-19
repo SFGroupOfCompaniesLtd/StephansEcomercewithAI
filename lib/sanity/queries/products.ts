@@ -269,6 +269,12 @@ export const PRODUCTS_BY_IDS_QUERY = defineQuery(`*[
       metadata
     }
   },
+  "image": images[0]{
+    asset->{
+      url
+    }
+  },
+  price,
   stock
 }`);
 

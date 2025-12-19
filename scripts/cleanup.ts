@@ -20,7 +20,7 @@ async function cleanup() {
         console.log(`Found ${orders.length} orders.`);
         if (orders.length > 0) {
             const trans = client.transaction();
-            orders.forEach(o => trans.delete(o._id));
+            orders.forEach((o: { _id: string }) => trans.delete(o._id));
             await trans.commit();
             console.log("Deleted all orders.");
         }
@@ -30,7 +30,7 @@ async function cleanup() {
         console.log(`Found ${products.length} products.`);
         if (products.length > 0) {
             const trans = client.transaction();
-            products.forEach(p => trans.delete(p._id));
+            products.forEach((p: { _id: string }) => trans.delete(p._id));
             await trans.commit();
             console.log("Deleted all products.");
         }
