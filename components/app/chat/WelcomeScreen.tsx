@@ -6,9 +6,9 @@ interface WelcomeScreenProps {
 }
 
 const productSuggestions = [
-  "Show me oak tables",
+  "Show me dog food",
   "Pet beds under TZS 100,000",
-  "What chairs do you have?",
+  "What cat accessories do you have?",
 ];
 
 const orderSuggestions = [
@@ -31,8 +31,8 @@ export function WelcomeScreen({
       </h3>
       <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400 max-w-xs">
         {isSignedIn
-          ? "I can help you find furniture, check your orders, and track deliveries."
-          : "I can help you find furniture by style, material, color, or price. Just ask!"}
+          ? "I can help you find pet products, check your orders, and track deliveries."
+          : "I can help you find pet food, toys, accessories, and more for your furry friends!"}
       </p>
 
       {/* Product suggestions */}
