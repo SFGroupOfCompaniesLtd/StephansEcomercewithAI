@@ -74,31 +74,46 @@ export function AdoptionSection({
     const fishImage = fishImages[fishIdx] || defaultFish;
 
     return (
-        <section className="relative w-full min-h-screen bg-background overflow-x-hidden flex items-center justify-center pt-4 pb-8">
+        <section className="relative w-full min-h-screen bg-white overflow-x-hidden flex items-center justify-center pt-4 pb-8">
+            {/* Video Background */}
+            <div className="absolute inset-0 z-0 overflow-hidden">
+                <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="absolute inset-0 w-full h-full object-cover opacity-30"
+                >
+                    <source src="/pet-store-video.mp4" type="video/mp4" />
+                </video>
+                {/* Gradient overlay - transparent top to white bottom */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white" />
+            </div>
+
             {/* Decorative sparkles */}
-            <div className="absolute top-8 left-4 md:left-12 text-primary/30 opacity-50">
+            <div className="absolute top-8 left-4 md:left-12 text-primary/30 opacity-50 z-10">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
                 </svg>
             </div>
-            <div className="absolute top-20 right-8 md:right-16 text-primary/20 opacity-40">
+            <div className="absolute top-20 right-8 md:right-16 text-primary/20 opacity-40 z-10">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
                 </svg>
             </div>
-            <div className="absolute bottom-32 left-8 md:left-20 text-primary/25 opacity-30">
+            <div className="absolute bottom-32 left-8 md:left-20 text-primary/25 opacity-30 z-10">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
                 </svg>
             </div>
-            <div className="absolute bottom-24 right-6 md:right-16 text-primary/30 opacity-50">
+            <div className="absolute bottom-24 right-6 md:right-16 text-primary/30 opacity-50 z-10">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
                 </svg>
             </div>
 
             {/* Main Container - Centered */}
-            <div className="relative w-full max-w-[650px] mx-auto px-4">
+            <div className="relative z-10 w-full max-w-[650px] mx-auto px-4">
                 {/* PAW Container with fixed aspect ratio */}
                 <div className="relative w-full" style={{ paddingBottom: '80%' }}>
 

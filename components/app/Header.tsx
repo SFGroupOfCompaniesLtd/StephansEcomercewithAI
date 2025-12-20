@@ -7,6 +7,7 @@ import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { useCartActions, useTotalItems } from "@/lib/store/cart-store-provider";
 import { useChatActions, useIsChatOpen } from "@/lib/store/chat-store-provider";
+import { HeaderSearch } from "./HeaderSearch";
 
 export function Header() {
   const { openCart } = useCartActions();
@@ -31,8 +32,11 @@ export function Header() {
 
         {/* Actions */}
         <div className="flex items-center gap-2">
-          {/* Grooming Link */}
-          <Button asChild variant="ghost" className="text-white hover:bg-white/20">
+          {/* Search */}
+          <HeaderSearch />
+
+          {/* Grooming Link - Improved Contrast */}
+          <Button asChild variant="ghost" className="bg-white/10 text-white hover:bg-white/20 border border-white/20">
             <Link href="/grooming" className="flex items-center gap-2">
               <Scissors className="h-5 w-5" />
               <span className="hidden sm:inline text-sm font-medium">Grooming</span>
@@ -53,7 +57,7 @@ export function Header() {
           {!isChatOpen && (
             <Button
               onClick={openChat}
-              className="gap-2 bg-white text-[rgb(107,62,30)] shadow-md transition-all hover:bg-white/90 hover:shadow-lg"
+              className="hidden sm:flex gap-2 bg-white text-[rgb(107,62,30)] shadow-md transition-all hover:bg-white/90 hover:shadow-lg"
             >
               <Image
                 src="/favicon.png"

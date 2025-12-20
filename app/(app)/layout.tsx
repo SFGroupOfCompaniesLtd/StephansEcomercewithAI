@@ -1,4 +1,5 @@
 import { CartStoreProvider } from "@/lib/store/cart-store-provider";
+import { WishlistStoreProvider } from "@/lib/store/wishlist-store-provider";
 import { ChatStoreProvider } from "@/lib/store/chat-store-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { SanityLive } from "@/sanity/lib/live";
@@ -9,24 +10,30 @@ import { CartSheet } from "@/components/app/CartSheet";
 import { ChatSheet } from "@/components/app/ChatSheet";
 import { AppShell } from "@/components/app/AppShell";
 
+import { MobileFooterNav } from "@/components/app/MobileFooterNav";
+
 function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
       <CartStoreProvider>
-        <ChatStoreProvider>
-          <AppShell>
-            <Header />
-            <main>{children}</main>
-            <Footer />
-          </AppShell>
-          <CartSheet />
-          <ChatSheet />
-          <Toaster position="bottom-center" />
-          <SanityLive />
-        </ChatStoreProvider>
+        <WishlistStoreProvider>
+          <ChatStoreProvider>
+            <AppShell>
+              <Header />
+              <main>{children}</main>
+              <Footer />
+              <MobileFooterNav />
+            </AppShell>
+            <CartSheet />
+            <ChatSheet />
+            <Toaster position="bottom-center" />
+            <SanityLive />
+          </ChatStoreProvider>
+        </WishlistStoreProvider>
       </CartStoreProvider>
     </ClerkProvider>
   );
 }
 
 export default AppLayout;
+

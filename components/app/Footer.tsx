@@ -57,7 +57,7 @@ export function Footer() {
                                 <Facebook className="h-5 w-5" />
                             </a>
                             <a
-                                href="https://instagram.com/stephanspetstore"
+                                href="https://instagram.com/stephans_ps"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors"

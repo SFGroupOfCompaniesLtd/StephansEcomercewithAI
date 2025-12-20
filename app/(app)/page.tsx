@@ -9,11 +9,13 @@ import {
 } from "@/lib/sanity/queries/products";
 import { ALL_CATEGORIES_QUERY } from "@/lib/sanity/queries/categories";
 import { HERO_PET_IMAGES_QUERY } from "@/lib/sanity/queries/heroImages";
+import { GROOMING_IMAGES_QUERY } from "@/lib/sanity/queries/groomingImages";
 import { ProductSection } from "@/components/app/ProductSection";
-import { FeaturedCarousel } from "@/components/app/FeaturedCarousel";
+import { ProductShowcase } from "@/components/app/ProductShowcase";
 import { FeaturedCarouselSkeleton } from "@/components/app/FeaturedCarouselSkeleton";
 import { AdoptionSection } from "@/components/app/AdoptionSection";
 import { GroomingSection } from "@/components/app/GroomingSection";
+import { CategoryTabs } from "@/components/app/CategoryTabs";
 
 interface PageProps {
   searchParams: Promise<{
@@ -88,12 +90,17 @@ export default async function HomePage({ searchParams }: PageProps) {
     query: HERO_PET_IMAGES_QUERY,
   });
 
-  // Extract image URLs
+  // Fetch grooming section images
+  const { data: groomingImages } = await sanityFetch({
+    query: GROOMING_IMAGES_QUERY,
+  });
+
   // Extract image URLs
   const dogImages = petImages?.dogImages?.map((img: any) => img.url).filter((url: any): url is string => !!url) ?? [];
   const catImages = petImages?.catImages?.map((img: any) => img.url).filter((url: any): url is string => !!url) ?? [];
   const birdImages = petImages?.birdImages?.map((img: any) => img.url).filter((url: any): url is string => !!url) ?? [];
   const fishImages = petImages?.fishImages?.map((img: any) => img.url).filter((url: any): url is string => !!url) ?? [];
+  const groomingImageUrls = groomingImages?.map((img: any) => img.url).filter((url: any): url is string => !!url) ?? [];
 
   return (
     <div className="min-h-screen bg-background">
@@ -105,29 +112,20 @@ export default async function HomePage({ searchParams }: PageProps) {
         fishImages={fishImages}
       />
 
-      {/* Featured Products Carousel (Section 3) */}
+      {/* Featured Products - JoJo's Style Grid (Section 3) */}
       {featuredProducts.length > 0 && (
         <Suspense fallback={<FeaturedCarouselSkeleton />}>
-          <FeaturedCarousel products={featuredProducts} />
+          <ProductShowcase products={featuredProducts} />
         </Suspense>
       )}
 
       {/* Grooming Section (Section 2) */}
-      <GroomingSection />
-
-      {/* Page Banner */}
-      <div className="border-b border-border bg-card">
-        <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">
-            Shop {categorySlug ? categorySlug : "All Products"}
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Premium pet supplies for your furry friends
-          </p>
-        </div>
-      </div>
+      <GroomingSection images={groomingImageUrls} />
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        {/* Category Quick Filters */}
+        <CategoryTabs />
+
         <ProductSection
           categories={categories}
           products={products}

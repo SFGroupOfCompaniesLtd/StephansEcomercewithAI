@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { client, writeClient } from "@/sanity/lib/client";
 import { ORDER_BY_STRIPE_PAYMENT_ID_QUERY } from "@/lib/sanity/queries/orders";
+import { pushOrderToOdoo, getOdooProductId } from "@/lib/odoo/order-sync";
 
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error("STRIPE_SECRET_KEY is not defined");
@@ -113,13 +114,13 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
     const shippingAddress = session.customer_details?.address;
     const address = shippingAddress
       ? {
-          name: session.customer_details?.name ?? "",
-          line1: shippingAddress.line1 ?? "",
-          line2: shippingAddress.line2 ?? "",
-          city: shippingAddress.city ?? "",
-          postcode: shippingAddress.postal_code ?? "",
-          country: shippingAddress.country ?? "",
-        }
+        name: session.customer_details?.name ?? "",
+        line1: shippingAddress.line1 ?? "",
+        line2: shippingAddress.line2 ?? "",
+        city: shippingAddress.city ?? "",
+        postcode: shippingAddress.postal_code ?? "",
+        country: shippingAddress.country ?? "",
+      }
       : undefined;
 
     // Create order in Sanity with customer reference
@@ -154,6 +155,40 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       .commit();
 
     console.log(`Stock updated for ${productIds.length} products`);
+
+    // Push order to Odoo ERP (async, don't block webhook)
+    try {
+      const odooOrderLines = await Promise.all(
+        productIds.map(async (productId, i) => {
+          const odooProductId = await getOdooProductId(productId);
+          return {
+            productName: lineItems.data[i]?.description || "Product",
+            productId: odooProductId || 0,
+            quantity: quantities[i],
+            price: (lineItems.data[i]?.amount_total || 0) / 100 / quantities[i],
+          };
+        })
+      );
+
+      // Only push if we have valid Odoo product IDs
+      const validLines = odooOrderLines.filter(line => line.productId > 0);
+      if (validLines.length > 0) {
+        await pushOrderToOdoo({
+          orderId: orderNumber,
+          customer: {
+            name: session.customer_details?.name || "Website Customer",
+            email: session.customer_details?.email || userEmail || "",
+            phone: session.customer_details?.phone || undefined,
+          },
+          lines: validLines,
+          total: (session.amount_total ?? 0) / 100,
+        });
+        console.log(`Order pushed to Odoo ERP`);
+      }
+    } catch (odooError) {
+      // Log but don't fail - Odoo sync is not critical for order completion
+      console.error("Odoo sync failed (non-blocking):", odooError);
+    }
   } catch (error) {
     console.error("Error handling checkout.session.completed:", error);
     throw error; // Re-throw to return 500 and trigger Stripe retry

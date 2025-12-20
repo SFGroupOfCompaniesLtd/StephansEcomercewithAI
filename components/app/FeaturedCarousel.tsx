@@ -21,19 +21,19 @@ import { cn, formatPrice } from "@/lib/utils";
 // type FeaturedProduct = FEATURED_PRODUCTS_QUERYResult[number];
 
 interface FeaturedProduct {
-    _id: string;
-    name: string | null;
-    slug: string | null;
-    description: string | null;
-    price: number | null;
-    images: Array<{
-        asset: {
-            url: string | null;
-        } | null;
-    }> | null;
-    category: {
-        title: string | null;
+  _id: string;
+  name: string | null;
+  slug: string | null;
+  description: string | null;
+  price: number | null;
+  images: Array<{
+    asset: {
+      url: string | null;
     } | null;
+  }> | null;
+  category: {
+    title: string | null;
+  } | null;
 }
 
 interface FeaturedCarouselProps {
@@ -77,7 +77,7 @@ export function FeaturedCarousel({ products }: FeaturedCarouselProps) {
         }}
         plugins={[
           Autoplay({
-            delay: 5000,
+            delay: 15000, // 15 seconds between slides
             stopOnInteraction: false,
             stopOnMouseEnter: true,
           }),

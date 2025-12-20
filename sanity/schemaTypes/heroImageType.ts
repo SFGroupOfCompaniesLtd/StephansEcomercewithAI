@@ -22,6 +22,7 @@ export const heroImageType = defineType({
                     { title: "Hero Cat", value: "hero-cat" },
                     { title: "Hero Bird", value: "hero-bird" },
                     { title: "Hero Fish", value: "hero-fish" },
+                    { title: "Grooming Section", value: "grooming" },
                 ],
             },
             validation: (rule) => rule.required(),
