@@ -13,6 +13,7 @@ import { ProductSection } from "@/components/app/ProductSection";
 import { FeaturedCarousel } from "@/components/app/FeaturedCarousel";
 import { FeaturedCarouselSkeleton } from "@/components/app/FeaturedCarouselSkeleton";
 import { AdoptionSection } from "@/components/app/AdoptionSection";
+import { GroomingSection } from "@/components/app/GroomingSection";
 
 interface PageProps {
   searchParams: Promise<{
@@ -104,12 +105,15 @@ export default async function HomePage({ searchParams }: PageProps) {
         fishImages={fishImages}
       />
 
-      {/* Featured Products Carousel (Section 2) */}
+      {/* Featured Products Carousel (Section 3) */}
       {featuredProducts.length > 0 && (
         <Suspense fallback={<FeaturedCarouselSkeleton />}>
           <FeaturedCarousel products={featuredProducts} />
         </Suspense>
       )}
+
+      {/* Grooming Section (Section 2) */}
+      <GroomingSection />
 
       {/* Page Banner */}
       <div className="border-b border-border bg-card">
